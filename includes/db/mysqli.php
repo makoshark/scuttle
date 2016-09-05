@@ -312,7 +312,7 @@ class sql_db
 			if ($rownum > -1)
 			{
 				@mysqli_data_seek($query_id, $rownum);
-				$row = @mysqli_fetch_assoc($query_id);
+				$row = @mysqli_fetch_row($query_id);
 				$result = isset($row[$field]) ? $row[$field] : false;
 			}
 			else
