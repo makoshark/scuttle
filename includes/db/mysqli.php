@@ -46,6 +46,8 @@ class sql_db
 		{
 			if (@mysqli_select_db($this->db_connect_id, $this->dbname))
 			{
+				//Set utf-8
+				mysqli_query($this->db_connect_id, 'SET CHARACTER SET utf8');
 				return $this->db_connect_id;
 			}
 		}
@@ -380,10 +382,10 @@ class sql_db
 	}
 
 	function sql_escape($msg) {
-		if (function_exists('mysql_real_escape_string')) {
-			return @mysql_real_escape_string($msg, $this->db_connect_id);
+		if (function_exists('mysqli_real_escape_string')) {
+			return @mysqli_real_escape_string($this->db_connect_id, $msg);
 		} else {
-			return mysql_escape_string($msg);
+			return mysqli_escape_string($this->db_connect_id, $msg);
 		}		
 	}
 	
@@ -400,7 +402,7 @@ class sql_db
 			{
 				$this->sql_transaction('rollback');
 			}
-			
+
 			trigger_error($message, E_USER_ERROR);
 		}
 

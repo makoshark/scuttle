@@ -41,7 +41,7 @@ class UserService {
         if(!empty($host)) {
             @exec("nslookup -type=$type $host", $output);
             while(list($k, $line) = each($output)) {
-                if(eregi("^$host", $line)) {
+                if(preg_match("/^$host/i", $line)) {   //eregi("^$host", $line)
                     return true;
                 }
             }
@@ -132,7 +132,7 @@ class UserService {
         if (isset($_SESSION[$this->getSessionKey()])) {
             return $_SESSION[$this->getSessionKey()];
         } else if (isset($_COOKIE[$this->getCookieKey()])) {
-            $cook = split(':', $_COOKIE[$this->getCookieKey()]);
+            $cook = explode(':', $_COOKIE[$this->getCookieKey()]); //split(':', $_COOKIE[$this->getCookieKey()]);
             //cookie looks like this: 'id:md5(username+password)'
             $query = 'SELECT * FROM '. $this->getTableName() .
                      ' WHERE MD5(CONCAT('.$this->getFieldName('username') .

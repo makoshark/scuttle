@@ -25,7 +25,7 @@ class ServiceFactory {
                 }
                 require_once $servicedir . strtolower($name) .'.php';
             }
-            $instances[$name] = call_user_func(array($name, 'getInstance'), $db);
+            $instances[$name] = call_user_func_array(array($name, 'getInstance'), array(&$db));
         }
         return $instances[$name];
     }
