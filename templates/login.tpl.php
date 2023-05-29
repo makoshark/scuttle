@@ -11,7 +11,7 @@
     <tr>
         <th align="left"><label for="password"><?php echo T_('Password'); ?></label></th>
         <td><input type="password" id="password" name="password" size="20" /></td>
-        <td><label><input type="checkbox" name="keeppass" value="yes" /> <?php echo T_("Don't ask for my password for 2 weeks"); ?>.</label></td>
+        <td><label><input type="checkbox" name="keeppass" value="yes" /> <?php echo T_("Keep me logged in"); ?>.</label></td>
     </tr>
     <tr>
         <td></td>
