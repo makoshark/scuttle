@@ -139,4 +139,7 @@ $email_blacklist   = array(
                       '/mailinator\.com/i'
                      );
 
+$archive_links = TRUE;
+$archive_base_url = "https://web.archive.org";
+
 include_once 'debug.inc.php';
