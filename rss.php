@@ -20,10 +20,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 require_once 'header.inc.php';
 
-$bookmarkservice =& ServiceFactory::getServiceInstance('BookmarkService');
-$cacheservice    =& ServiceFactory::getServiceInstance('CacheService');
-$templateservice =& ServiceFactory::getServiceInstance('TemplateService');
-$userservice     =& ServiceFactory::getServiceInstance('UserService');
+$sf = new ServiceFactory();
+$bookmarkservice =& $sf->getServiceInstance('BookmarkService');
+$templateservice =& $sf->getServiceInstance('TemplateService');
+$userservice     =& $sf->getServiceInstance('UserService');
+$cacheservice    =& $sf->getServiceInstance('CacheService');
 
 $tplVars = array();
 header('Content-Type: application/xml');

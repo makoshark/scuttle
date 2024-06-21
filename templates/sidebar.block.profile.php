@@ -1,5 +1,6 @@
 <?php
-$userservice =& ServiceFactory::getServiceInstance('UserService');
+$sf = new ServiceFactory();
+$userservice =& $sf->getServiceInstance('UserService');
 if (utf8_strlen($userinfo['name']) > 0) {
     $name = $userinfo['name'];
 } else {

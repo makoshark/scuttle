@@ -10,7 +10,7 @@ class TemplateService {
     return $instance;
   }
 
-  function TemplateService() {
+  function __construct() {
     $this->basedir = $GLOBALS['TEMPLATES_DIR'];    
   }
 
@@ -29,7 +29,7 @@ class Template {
   var $file = '';
   var $templateservice;
 
-  function Template($file, $vars = NULL, &$templateservice) {
+  function __construct($file, $vars = NULL, &$templateservice) {
     $this->vars = $vars;
     $this->file = $file;
     $this->templateservice = $templateservice; 

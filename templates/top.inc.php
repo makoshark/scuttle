@@ -8,12 +8,16 @@
     <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['root']; ?>scuttle.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['root']; ?>jquery-ui-1.8.9.autocomplete.css" />
     <?php
-    $size = count($rsschannels);
+    if (isset($rsschannels)) {
+        $size = count($rsschannels);
+    } else {
+        $size = 0;
+    }
     for ($i = 0; $i < $size; $i++) {
         echo '<link rel="alternate" type="application/rss+xml" title="'. $rsschannels[$i][0] .'" href="'. $rsschannels[$i][1] .'" />';
     }
     ?>
-    <?php if ($loadjs): ?>
+    <?php if (isset($loadjs) && $loadjs): ?>
       <script type="text/javascript" src="<?php echo $GLOBALS['root']; ?>includes/jquery-1.4.4.min.js"></script>
       <script type="text/javascript" src="<?php echo $GLOBALS['root']; ?>includes/jquery-ui-1.8.9.autocomplete.min.js"></script>
       <script type="text/javascript" src="<?php echo $GLOBALS['root']; ?>jsScuttle.php"></script>

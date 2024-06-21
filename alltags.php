@@ -20,10 +20,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 require_once 'header.inc.php';
 
-$templateservice =& ServiceFactory::getServiceInstance('TemplateService');
-$tagservice      =& ServiceFactory::getServiceInstance('TagService');
-$userservice     =& ServiceFactory::getServiceInstance('UserService');
-$cacheservice    =& ServiceFactory::getServiceInstance('CacheService');
+$sf = new ServiceFactory();
+$bookmarkservice =& $sf->getServiceInstance('BookmarkService');
+$templateservice =& $sf->getServiceInstance('TemplateService');
+$userservice     =& $sf->getServiceInstance('UserService');
+$cacheservice    =& $sf->getServiceInstance('CacheService');
 
 @list($url, $user) = explode('/', $_SERVER['PATH_INFO']);
 if (!$user) {

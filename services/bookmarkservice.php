@@ -10,13 +10,13 @@ class BookmarkService {
     return $instance;
   }
 
-  function BookmarkService(&$db) {
+  function __construct(&$db) {
     $this->db =& $db;
   }
 
   function _getbookmark($fieldname, $value, $all = false) {
       if (!$all) {
-          $userservice = & ServiceFactory :: getServiceInstance('UserService');
+          $userservice = & (new ServiceFactory())->getServiceInstance('UserService');
           $sId = $userservice->getCurrentUserId();
           $range = ' AND uId = '. $sId;
       }
@@ -46,7 +46,7 @@ class BookmarkService {
 
       if ($row = & $this->db->sql_fetchrow($dbresult)) {
           if ($include_tags) {
-              $tagservice = & ServiceFactory :: getServiceInstance('TagService');
+              $tagservice = & (new ServiceFactory())->getServiceInstance('TagService');
               $row['tags'] = $tagservice->getTagsForBookmark($bid);
           }
           return $row;
@@ -72,7 +72,7 @@ class BookmarkService {
           if (!($bookmark = $this->getBookmark($bookmark)))
               return false;
 
-      $userservice = & ServiceFactory :: getServiceInstance('UserService');
+      $userservice = & (new ServiceFactory())->getServiceInstance('UserService');
       $userid = $userservice->getCurrentUserId();
       if ($userservice->isAdmin($userid))
           return true;
@@ -105,7 +105,7 @@ class BookmarkService {
   // Adds a bookmark to the database.
   // Note that date is expected to be a string that's interpretable by strtotime().
   function addBookmark($address, $title, $description, $status, $categories, $date = NULL, $fromApi = false, $fromImport = false) {
-      $userservice = & ServiceFactory :: getServiceInstance('UserService');
+      $userservice = & (new ServiceFactory())->getServiceInstance('UserService');
       $sId = $userservice->getCurrentUserId();
 
       // If bookmark address doesn't contain ":", add "http://" to the start as a default protocol
@@ -151,7 +151,7 @@ class BookmarkService {
       $extension = end($uriparts);
       unset($uriparts);
 
-      $tagservice = & ServiceFactory :: getServiceInstance('TagService');
+      $tagservice = & (new ServiceFactory())->getServiceInstance('TagService');
       if (!$tagservice->attachTags($bId, $categories, $fromApi, $extension, false, $fromImport)) {
           $this->db->sql_transaction('rollback');
           message_die(GENERAL_ERROR, 'Could not insert bookmark', '', __LINE__, __FILE__, $sql, $this->db);
@@ -197,7 +197,7 @@ class BookmarkService {
       $extension = end($uriparts);
       unset($uriparts);
 
-      $tagservice = & ServiceFactory :: getServiceInstance('TagService');
+      $tagservice = & (new ServiceFactory())->getServiceInstance('TagService');
       if (!$tagservice->attachTags($bId, $categories, $fromApi, $extension)) {
           $this->db->sql_transaction('rollback');
           message_die(GENERAL_ERROR, 'Could not update bookmark', '', __LINE__, __FILE__, $sql, $this->db);
@@ -218,8 +218,8 @@ class BookmarkService {
       //    if that user is on the logged-in user's watchlist, get the public AND contacts-only
       //    bookmarks; otherwise, just get the public bookmarks.
       //  - if the $user is set and IS the logged-in user, then get all bookmarks.
-      $userservice =& ServiceFactory::getServiceInstance('UserService');
-      $tagservice =& ServiceFactory::getServiceInstance('TagService');
+      $userservice =& (new ServiceFactory())->getServiceInstance('UserService');
+      $tagservice =& (new ServiceFactory())->getServiceInstance('TagService');
       $sId = $userservice->getCurrentUserId();
 
       if ($userservice->isLoggedOn()) {
@@ -238,11 +238,12 @@ class BookmarkService {
       // Set up the tags, if need be.
       if (!is_array($tags) && !is_null($tags)) {
           $tags = explode('+', trim($tags));
-      }
-
-      $tagcount = count($tags);
-      for ($i = 0; $i < $tagcount; $i ++) {
-          $tags[$i] = trim($tags[$i]);
+          $tagcount = count($tags);
+          for ($i = 0; $i < $tagcount; $i ++) {
+              $tags[$i] = trim($tags[$i]);
+          }
+      } else {
+          $tagcount = 0;
       }
 
       // Set up the SQL query.
@@ -312,7 +313,7 @@ class BookmarkService {
           $aTerms = array_map('trim', $aTerms);
 
           // Search terms in tags as well when none given
-          if (!count($tags)) {
+          if (isset($tags) && !count($tags)) {
               $query_2 .= ' LEFT JOIN '. $GLOBALS['tableprefix'] .'tags AS T ON B.bId = T.bId';
               $dotags = true;
           } else {
@@ -396,7 +397,7 @@ class BookmarkService {
           return false;
       }
 
-      $userservice = & ServiceFactory :: getServiceInstance('UserService');
+      $userservice = & (new ServiceFactory())->getServiceInstance('UserService');
       $sId = $userservice->getCurrentUserId();
 
       if ($userservice->isLoggedOn()) {

@@ -20,8 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 require_once 'header.inc.php';
 
-$userservice     =& ServiceFactory::getServiceInstance('UserService');
-$templateservice =& ServiceFactory::getServiceInstance('TemplateService');
+$sf = new ServiceFactory();
+$userservice     =& $sf->getServiceInstance('UserService');
+$templateservice =& $sf->getServiceInstance('TemplateService');
 
 $tplVars = array();
 
@@ -62,8 +63,9 @@ else {
 function startElement($parser, $name, $attrs) {
     global $depth, $status, $tplVars, $userservice;
 
-    $bookmarkservice =& ServiceFactory::getServiceInstance('BookmarkService');
-    $userservice =& ServiceFactory::getServiceInstance('UserService');
+    $sf = new ServiceFactory();
+    $bookmarkservice =& $sf->getServiceInstance('BookmarkService');
+    $cacheservice    =& $sf->getServiceInstance('CacheService');
 
     if ($name == 'POST') {
         while(list($attrTitle, $attrVal) = each($attrs)) {

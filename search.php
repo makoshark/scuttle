@@ -27,12 +27,19 @@ if (isset($_POST['terms'])) {
 
 // GET
 } else {
-    $bookmarkservice =& ServiceFactory::getServiceInstance('BookmarkService');
-    $templateservice =& ServiceFactory::getServiceInstance('TemplateService');
-    $userservice =& ServiceFactory::getServiceInstance('UserService');
+    $sf = new ServiceFactory();
+    $bookmarkservice =& $sf->getServiceInstance('BookmarkService');
+    $templateservice =& $sf->getServiceInstance('TemplateService');
+    $userservice     =& $sf->getServiceInstance('UserService');
 
     $logged_on_userid = $userservice->getCurrentUserId();
-    list($url, $range, $terms, $page) = explode('/', $_SERVER['PATH_INFO']);
+
+    # explode the path
+    $path_exploded = explode('/', $_SERVER['PATH_INFO']);
+    $url = (count($path_exploded) > 0 ? $path_exploded[0] : NULL);
+    $range = (count($path_exploded) > 1 ? $path_exploded[1] : NULL);
+    $terms = (count($path_exploded) > 2 ? $path_exploded[2] : NULL);
+    $page = (count($path_exploded) > 3 ? $path_exploded[3] : NULL);
 
     $tplvars = array();
     $tplVars['loadjs'] = true;

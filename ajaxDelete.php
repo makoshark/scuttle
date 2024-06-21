@@ -23,7 +23,8 @@ header('Last-Modified: '. gmdate("D, d M Y H:i:s") .' GMT');
 header('Cache-Control: no-cache, must-revalidate');
 require_once 'header.inc.php';
 
-$bookmarkservice =& ServiceFactory::getServiceInstance('BookmarkService');
+$sf = new ServiceFactory();
+$bookmarkservice =& $sf->getServiceInstance('BookmarkService');
 $bookmark = intval($_GET['id']);
 if (!$bookmarkservice->editAllowed($bookmark)) {
   echo T_('You are not allowed to delete this bookmark');

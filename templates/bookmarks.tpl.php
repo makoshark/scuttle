@@ -1,9 +1,21 @@
 <?php
-$userservice     =& ServiceFactory::getServiceInstance('UserService');
-$bookmarkservice =& ServiceFactory::getServiceInstance('BookmarkService');
+$sf = new ServiceFactory();
+$userservice     =& $sf->getServiceInstance('UserService');
+$bookmarkservice =& $sf->getServiceInstance('BookmarkService');
 
 $logged_on_userid = $userservice->getCurrentUserId();
 $this->includeTemplate($GLOBALS['top_include']);
+
+# define variables
+if (!isset($currenttag)) {
+    $currenttag = NULL;
+}
+if (!isset($user)) {
+    $user = NULL;
+}
+if (!isset($userid)) {
+    $userid = NULL;
+}
 
 include 'search.inc.php';
 if (count($bookmarks) > 0) {

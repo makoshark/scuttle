@@ -1,5 +1,6 @@
 <?php
-$userservice =& ServiceFactory::getServiceInstance('UserService');
+$sf = new ServiceFactory();
+$userservice =& $sf->getServiceInstance('UserService');
 $this->includeTemplate($GLOBALS['top_include']);
 ?>
 
