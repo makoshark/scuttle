@@ -15,3 +15,15 @@ INSTALLATION
 * Edit config.inc.php.example and save the changes as a new config.inc.php file in the same directory.
 
 * Set the CHMOD permissions on the /cache/ subdirectory to 777
+
+=====================
+PHP 8 Transition/Bugs
+=====================
+
+Notes:
+
+- Things are working but (a) I have not touched the RSS code.
+
+- The search.in.php stuff seems broken such that if you search in subsets the selection is totally broken when it comes back.
+
+- There are still a number of errors that show up.
