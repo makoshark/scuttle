@@ -20,10 +20,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 require_once 'header.inc.php';
 
-$bookmarkservice =& ServiceFactory::getServiceInstance('BookmarkService');
-$templateservice =& ServiceFactory::getServiceInstance('TemplateService');
-$userservice     =& ServiceFactory::getServiceInstance('UserService');
-$cacheservice    =& ServiceFactory::getServiceInstance('CacheService');
+$sf = new ServiceFactory();
+$bookmarkservice =& $sf->getServiceInstance('BookmarkService');
+$templateservice =& $sf->getServiceInstance('TemplateService');
+$userservice     =& $sf->getServiceInstance('UserService');
+$cacheservice    =& $sf->getServiceInstance('CacheService');
 
 $tplVars = array();
 
@@ -33,6 +34,7 @@ if (isset($_GET['action']) && ($_GET['action'] == "add") && !$userservice->isLog
     exit();
 }
 
+# it would probably be better to not supress the errors here
 @list($url, $user, $cat) = isset($_SERVER['PATH_INFO']) ? explode('/', $_SERVER['PATH_INFO']) : NULL;
 
 $loggedon = false;
@@ -147,11 +149,16 @@ if ($templatename == 'editbookmark.tpl') {
             );
             $tplVars['tags'] = $_POST['tags'];
         } else {
+            if (isset($_GET['tags'])) {
+                $raw_tags = $_GET['tags'];
+            } else {
+                $raw_tags = NULL;
+            }
             $tplVars['row'] = array(
                 'bTitle' => stripslashes($_GET['title']),
                 'bAddress' => stripslashes($_GET['address']),
                 'bDescription' => stripslashes($_GET['description']),
-                'tags' => ($_GET['tags'] ? explode(',', stripslashes($_GET['tags'])) : array())
+                'tags' => ($raw_tags ? explode(',', stripslashes($raw_tags)) : array())
             );
         }
         $title = T_('Add a Bookmark');
@@ -202,7 +209,7 @@ if ($templatename == 'editbookmark.tpl') {
     $tplVars['start'] = $start;
     $tplVars['bookmarkCount'] = $start + 1;
     
-    $bookmarks =& $bookmarkservice->getBookmarks($start, $perpage, $userid, $cat, $terms, getSortOrder());
+    $bookmarks =& $bookmarkservice->getBookmarks($start, $perpage, $userid, $cat, '', getSortOrder());
     $tplVars['total'] = $bookmarks['total'];
     $tplVars['bookmarks'] =& $bookmarks['bookmarks'];
     $tplVars['cat_url'] = createURL('bookmarks', '%s/%s');

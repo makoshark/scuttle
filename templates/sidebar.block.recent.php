@@ -1,11 +1,17 @@
 <?php
-$tagservice =& ServiceFactory::getServiceInstance('TagService');
-$userservice =& ServiceFactory::getServiceInstance('UserService');
+$sf = new ServiceFactory();
+$tagservice  =& $sf->getServiceInstance('TagService');
+$userservice =& $sf->getServiceInstance('UserService');
 
 $logged_on_userid = $userservice->getCurrentUserId();
 if ($logged_on_userid === false) {
     $logged_on_userid = NULL;
 }
+
+if (!isset($userid)) {
+    $userid = NULL;
+}
+
 $recentTags = $tagservice->getPopularTags($userid, $popCount, $logged_on_userid, $GLOBALS['defaultRecentDays']);
 $recentTags =& $tagservice->tagCloud($recentTags, 5, 90, 225, 'alphabet_asc'); 
 

@@ -1,5 +1,6 @@
 <?php
-$userservice =& ServiceFactory::getServiceInstance('UserService');
+$sf = new ServiceFactory();
+$userservice =& $sf->getServiceInstance('UserService');
 if ($userservice->isLoggedOn()) {
     $cUser = $userservice->getCurrentUser();
     $cUsername = $cUser[$userservice->getFieldName('username')];

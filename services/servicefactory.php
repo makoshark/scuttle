@@ -1,11 +1,10 @@
 <?php
 class ServiceFactory {
-    function ServiceFactory(&$db, $serviceoverrules = array()) {
+    function ServiceFactory() {
     }
 
     function &getServiceInstance($name, $servicedir = NULL) {
         global $dbhost, $dbuser, $dbpass, $dbname, $dbport, $dbpersist, $dbtype;
-        static $instances = array();
         static $db;
         if (!isset($db)) {
             require_once dirname(__FILE__) .'/../includes/db/'. $dbtype .'.php';
@@ -15,6 +14,8 @@ class ServiceFactory {
                 message_die(CRITICAL_ERROR, "Could not connect to the database", $db);
             }
         }
+
+        static $instances = array();
         if (!isset($instances[$name])) {
             if (isset($serviceoverrules[$name])) {
                 $name = $serviceoverrules[$name];
@@ -25,7 +26,7 @@ class ServiceFactory {
                 }
                 require_once $servicedir . strtolower($name) .'.php';
             }
-            $instances[$name] = call_user_func_array(array($name, 'getInstance'), array(&$db));
+            $instances[$name] = (new $name($db))->getInstance($db);
         }
         return $instances[$name];
     }

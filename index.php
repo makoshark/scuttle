@@ -19,10 +19,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ***************************************************************************/
 
 require_once 'header.inc.php';
-$bookmarkservice =& ServiceFactory::getServiceInstance('BookmarkService');
-$templateservice =& ServiceFactory::getServiceInstance('TemplateService');
-$userservice     =& ServiceFactory::getServiceInstance('UserService');
-$cacheservice    =& ServiceFactory::getServiceInstance('CacheService');
+
+$sf = new ServiceFactory();
+$bookmarkservice =& $sf->getServiceInstance('BookmarkService');
+$templateservice =& $sf->getServiceInstance('TemplateService');
+$userservice     =& $sf->getServiceInstance('UserService');
+$cacheservice    =& $sf->getServiceInstance('CacheService');
 
 $tplvars = array();
 if (isset($_GET['action']) && 'logout' == $_GET['action']) {

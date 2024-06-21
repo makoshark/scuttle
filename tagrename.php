@@ -19,9 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ***************************************************************************/
 
 require_once 'header.inc.php';
-$tagservice = & ServiceFactory :: getServiceInstance('TagService');
-$templateservice = & ServiceFactory :: getServiceInstance('TemplateService');
-$userservice = & ServiceFactory :: getServiceInstance('UserService');
+$sf = new ServiceFactory();
+$tagservice =& $sf->getServiceInstance('TagService');
+$templateservice =& $sf->getServiceInstance('TemplateService');
+$userservice     =& $sf->getServiceInstance('UserService');
 
 list ($url, $tag) = explode('/', $_SERVER['PATH_INFO']);
 

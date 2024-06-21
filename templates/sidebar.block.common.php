@@ -1,5 +1,6 @@
 <?php
-$tagservice =& ServiceFactory::getServiceInstance('TagService');
+$sf = new ServiceFactory();
+$tagservice  =& $sf->getServiceInstance('TagService');
 $commonTags =& $tagservice->getRelatedTagsByHash($hash);
 $commonTags =& $tagservice->tagCloud($commonTags, 5, 90, 225, 'alphabet_asc'); 
 

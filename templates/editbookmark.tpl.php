@@ -4,16 +4,19 @@ $this->includeTemplate($GLOBALS['top_include']);
 $accessPublic = '';
 $accessShared = '';
 $accessPrivate = '';
-switch ($row['bStatus']) {
-    case 0 :
-        $accessPublic = ' selected="selected"';
-        break;
-    case 1 :
-        $accessShared = ' selected="selected"';
-        break;
-    case 2 :
-        $accessPrivate = ' selected="selected"';
-        break;
+
+if (isset($row['bStatus'])) {
+    switch ($row['bStatus']) {
+        case 0 :
+            $accessPublic = ' selected="selected"';
+            break;
+        case 1 :
+            $accessShared = ' selected="selected"';
+            break;
+        case 2 :
+            $accessPrivate = ' selected="selected"';
+            break;
+    }
 }
 ?>
 
@@ -36,7 +39,7 @@ switch ($row['bStatus']) {
 </tr>
 <tr>
     <th align="left"><?php echo T_('Tags'); ?></th>
-    <td><input type="text" id="tags" name="tags" size="75" value="<?php echo filter(implode(', ', $row['tags']), 'xml'); ?>" /></td>
+    <td><input type="text" id="tags" name="tags" size="75" value="<?php if (isset($row['tags'])) { echo filter(implode(', ', $row['tags']), 'xml'); }?>" /></td>
     <td>&larr; <?php echo T_('Comma-separated'); ?></td>
 </tr>
 <tr>
@@ -54,12 +57,12 @@ switch ($row['bStatus']) {
     <td></td>
     <td>
         <input type="submit" name="submitted" value="<?php echo $btnsubmit; ?>" />
-        <?php if ($showdelete): ?>
+        <?php if (isset($showdelete) && $showdelete): ?>
           <input type="submit" name="delete" value="<?php echo T_('Delete Bookmark'); ?>" />
         <?php endif; ?>
         <?php if ($popup): ?>
           <input type="hidden" name="popup" value="1" />
-        <?php elseif ($referrer): ?>
+        <?php elseif (isset($referrer) && $referrer): ?>
           <input type="hidden" name="referrer" value="<?php echo $referrer; ?>" />
         <?php endif; ?>
     </td>
@@ -78,7 +81,7 @@ $(function() {
 $this->includeTemplate('dynamictags.inc');
 
 // Bookmarklets and import links
-if (empty($_REQUEST['popup']) && !$showdelete) {
+if (empty($_REQUEST['popup']) && (!isset($showdelete) || !$showdelete)) {
 ?>
 
 <h3><?php echo T_('Bookmarklet'); ?></h3>

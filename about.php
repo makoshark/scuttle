@@ -19,7 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ***************************************************************************/
 
 require_once 'header.inc.php';
-$templateservice =& ServiceFactory::getServiceInstance('TemplateService');
+$sf = new ServiceFactory();
+$templateservice =& $sf->getServiceInstance('TemplateService');
 
 $tplVars             = array();
 $tplVars['subtitle'] = T_('About');

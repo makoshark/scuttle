@@ -21,7 +21,7 @@ class UserService {
   var $cookiekey;
   var $cookietime = 63072000; // 2 years
 
-    function UserService(&$db) {
+    function __construct(&$db) {
         $this->db =& $db;
         $this->tablename = $GLOBALS['tableprefix'] .'users';
         $this->sessionkey = $GLOBALS['cookieprefix'] .'-currentuserid';

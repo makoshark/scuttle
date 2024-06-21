@@ -11,7 +11,7 @@ class TagService {
     return $instance;
   }
 
-  function TagService(&$db) {
+  function __construct(&$db) {
     $this->db =& $db;
     $this->tablename = $GLOBALS['tableprefix'] .'tags';
   }
@@ -107,7 +107,7 @@ class TagService {
     } 
     
     function deleteTag($tag) {
-        $userservice =& ServiceFactory::getServiceInstance('UserService');
+        $userservice =& (new ServiceFactory())->getServiceInstance('UserService');
         $logged_on_user = $userservice->getCurrentUserId();
 
         $query = 'DELETE FROM '. $this->getTableName() .' USING '. $GLOBALS['tableprefix'] .'tags, '. $GLOBALS['tableprefix'] .'bookmarks WHERE '. $GLOBALS['tableprefix'] .'tags.bId = '. $GLOBALS['tableprefix'] .'bookmarks.bId AND '. $GLOBALS['tableprefix'] .'bookmarks.uId = '. $logged_on_user .' AND '. $GLOBALS['tableprefix'] .'tags.tag = "'. $this->db->sql_escape($tag) .'"';
@@ -158,7 +158,7 @@ class TagService {
     }
 
     function &getTags($userid = NULL) {
-        $userservice =& ServiceFactory::getServiceInstance('UserService');
+        $userservice =& (new ServiceFactory())->getServiceInstance('UserService');
         $logged_on_user = $userservice->getCurrentUserId();
 
         $query = 'SELECT T.tag, COUNT(B.bId) AS bCount FROM '. $GLOBALS['tableprefix'] .'bookmarks AS B INNER JOIN '. $userservice->getTableName() .' AS U ON B.uId = U.'. $userservice->getFieldName('primary') .' INNER JOIN '. $GLOBALS['tableprefix'] .'tags AS T ON B.bId = T.bId';
@@ -228,7 +228,7 @@ class TagService {
 
     // Returns the most popular tags used for a particular bookmark hash
     function &getRelatedTagsByHash($hash, $limit = 20) {
-        $userservice = & ServiceFactory :: getServiceInstance('UserService');
+        $userservice = & (new ServiceFactory())->getServiceInstance('UserService');
         $sId = $userservice->getCurrentUserId();
         // Logged in
         if ($userservice->isLoggedOn()) {
@@ -299,7 +299,7 @@ class TagService {
     }
 
     function renameTag($userid, $old, $new, $fromApi = false) {
-        $bookmarkservice =& ServiceFactory::getServiceInstance('BookmarkService');
+        $bookmarkservice =& (new ServiceFactory())->getServiceInstance('BookmarkService');
 
         if (is_null($userid) || is_null($old) || is_null($new))
             return false;
@@ -348,9 +348,8 @@ class TagService {
         }
 
         if ($sortOrder == 'alphabet_asc') {
-            usort($output, create_function('$a,$b','return strcmp(utf8_strtolower($a["tag"]), utf8_strtolower($b["tag"]));'));
+            usort($output, function($a, $b) { return strcmp(utf8_strtolower($a["tag"]), utf8_strtolower($b["tag"])); });
         }
-
         return $output;
     }
 
