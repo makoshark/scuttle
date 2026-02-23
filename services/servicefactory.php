@@ -3,11 +3,12 @@ class ServiceFactory {
     function ServiceFactory() {
     }
 
-    function &getServiceInstance($name, $servicedir = NULL) {
+    static function &getServiceInstance($name, $servicedir = NULL) {
         global $dbhost, $dbuser, $dbpass, $dbname, $dbport, $dbpersist, $dbtype;
         static $db;
         if (!isset($db)) {
             require_once dirname(__FILE__) .'/../includes/db/'. $dbtype .'.php';
+            error_log("creating new db instance");
             $db = new sql_db();
             $db->sql_connect($dbhost, $dbuser, $dbpass, $dbname, $dbport, $dbpersist);
             if(!$db->db_connect_id) {
