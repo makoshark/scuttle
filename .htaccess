@@ -2,6 +2,18 @@
 # Apache/PHP settings for Scuttle
 #
 
+Authtype Basic
+AuthName "links.mako.cc"
+AuthUserFile /var/www/links.mako.cc/.htpasswd
+Require valid-user
+
+<FilesMatch "(tags|bookmarks|rss).php$">
+    # non-empty Cookie header required
+    # Require expr "-n req('Cookie')"
+    Require expr "req('Cookie') =~ /(^|;\s*)SCUTTLE-login=[^;]+/"
+    ErrorDocument 403 /restricted.html
+</FilesMatch>
+
 # Don't show directory listings for URLs which map to a directory.
 Options -Indexes
 
