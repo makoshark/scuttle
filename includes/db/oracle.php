@@ -266,9 +266,8 @@ class sql_db
 				return false;
 			}
 
-			for($i = 0; $i < count($result_row); $i++)
+			foreach($result_row as $key => $val)
 			{
-				list($key, $val) = each($result_row);
 				$return_arr[strtolower($key)] = $val;
 			}
 			$this->row[$query_id] = $return_arr;
@@ -296,9 +295,8 @@ class sql_db
 			{
 				@OCIFetchInto($query_id, $tmp_result, OCI_ASSOC+OCI_RETURN_NULLS);
 
-				for($j = 0; $j < count($tmp_result); $j++)
+				foreach($tmp_result as $key => $val)
 				{
-					list($key, $val) = each($tmp_result);
 					$return_arr[strtolower($key)] = $val;
 				}
 				$result[] = $return_arr;
