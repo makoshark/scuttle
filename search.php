@@ -23,7 +23,8 @@ require_once 'header.inc.php';
 // POST
 if (isset($_POST['terms'])) {
     // Redirect to GET
-    header('Location: '. createURL('search', $_POST['range'] .'/'. filter($_POST['terms'], 'url')));
+    $range = !empty($_POST['range']) ? $_POST['range'] : 'all';
+    header('Location: '. createURL('search', $range .'/'. filter($_POST['terms'], 'url')));
 
 // GET
 } else {
@@ -35,11 +36,10 @@ if (isset($_POST['terms'])) {
     $logged_on_userid = $userservice->getCurrentUserId();
 
     # explode the path
-    $path_exploded = explode('/', $_SERVER['PATH_INFO']);
-    $url = (count($path_exploded) > 0 ? $path_exploded[0] : NULL);
-    $range = (count($path_exploded) > 1 ? $path_exploded[1] : NULL);
-    $terms = (count($path_exploded) > 2 ? $path_exploded[2] : NULL);
-    $page = (count($path_exploded) > 3 ? $path_exploded[3] : NULL);
+    $path_exploded = array_values(array_filter(explode('/', $_SERVER['PATH_INFO'] ?? ''), 'strlen'));
+    $range = count($path_exploded) > 0 ? $path_exploded[0] : NULL;
+    $terms = count($path_exploded) > 1 ? $path_exploded[1] : NULL;
+    $page  = count($path_exploded) > 2 ? $path_exploded[2] : NULL;
 
     $tplvars = array();
     $tplVars['loadjs'] = true;

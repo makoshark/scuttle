@@ -17,7 +17,7 @@
         <td><?php echo T_('Search' /* Search ... for */); ?></td>
         <td>
             <select name="range">
-                <?php if (isset($currentUsername) && $user != $currentUsername): ?>
+                <?php if (isset($user) && isset($currentUsername) && $user != $currentUsername): ?>
                 <option value="<?php echo $user ?>"><?php echo T_("this user's bookmarks"); ?></option>
                 <?php
                 endif;
