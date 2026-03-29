@@ -68,7 +68,7 @@ function startElement($parser, $name, $attrs) {
     $cacheservice    =& $sf->getServiceInstance('CacheService');
 
     if ($name == 'POST') {
-        while(list($attrTitle, $attrVal) = each($attrs)) {
+        foreach($attrs as $attrTitle => $attrVal) {
             switch ($attrTitle) {
                 case 'HREF':
                     $bAddress = $attrVal;

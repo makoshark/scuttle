@@ -40,7 +40,7 @@ class UserService {
     function _checkdnsrr($host, $type = "MX") {
         if(!empty($host)) {
             @exec("nslookup -type=$type $host", $output);
-            while(list($k, $line) = each($output)) {
+            foreach($output as $k => $line) {
                 if(preg_match("/^$host/i", $line)) {   //eregi("^$host", $line)
                     return true;
                 }
