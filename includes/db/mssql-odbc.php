@@ -185,7 +185,7 @@ class sql_db
 	{
 		$result = false;
 		
-		if (eregi("^SELECT ", $query))
+		if (preg_match('/^SELECT /i', $query))
 		{
 			$result = @odbc_exec($this->db_connect_id, $query); 
 
@@ -221,7 +221,7 @@ class sql_db
 				$this->num_rows[$result] = sizeof($this->result_rowset[$result]);	
 			}
 		}
-		else if (eregi("^INSERT ", $query))
+		else if (preg_match('/^INSERT /i', $query))
 		{
 			$result = @odbc_exec($this->db_connect_id, $query);
 

@@ -102,7 +102,7 @@ class sql_db
 			$this->last_query = $query;
 			$this->num_queries++;
 
-			if(eregi("LIMIT", $query))
+			if(preg_match('/LIMIT/i', $query))
 			{
 				preg_match("/^(.*)LIMIT ([0-9]+)[, ]*([0-9]+)*/s", $query, $limits);
 
@@ -119,7 +119,7 @@ class sql_db
 				}
 			}
 
-			if(eregi("^(INSERT|UPDATE) ", $query))
+			if(preg_match('/^(INSERT|UPDATE) /i', $query))
 			{
 				$query = preg_replace("/\\\'/s", "''", $query);
 			}
@@ -370,7 +370,7 @@ class sql_db
 		}
 		if($query_id && $this->last_query_text[$query_id] != "")
 		{
-			if( eregi("^(INSERT{1}|^INSERT INTO{1})[[:space:]][\"]?([a-zA-Z0-9\_\-]+)[\"]?", $this->last_query_text[$query_id], $tablename))
+			if( preg_match('/^(INSERT|INSERT INTO)\s"?([a-zA-Z0-9_-]+)"?/i', $this->last_query_text[$query_id], $tablename))
 			{
 				$query = "SELECT ".$tablename[2]."_id_seq.currval FROM DUAL";
 				$stmt = @OCIParse($this->db_connect_id, $query);
@@ -404,7 +404,7 @@ class sql_db
 		}
 		if($query_id && $this->last_query_text[$query_id] != "")
 		{
-			if( eregi("^(INSERT{1}|^INSERT INTO{1})[[:space:]][\"]?([a-zA-Z0-9\_\-]+)[\"]?", $this->last_query_text[$query_id], $tablename))
+			if( preg_match('/^(INSERT|INSERT INTO)\s"?([a-zA-Z0-9_-]+)"?/i', $this->last_query_text[$query_id], $tablename))
 			{
 				$query = "SELECT ".$tablename[2]."_id_seq.CURRVAL FROM DUAL";
 				$temp_q_id =  @OCIParse($this->db_connect_id, $query);
