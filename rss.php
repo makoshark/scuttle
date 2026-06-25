@@ -48,6 +48,7 @@ if ($usecache) {
 }
 
 $watchlist = NULL;
+$pagetitle = '';
 if ($user && $user != 'all') {
   if ($user == 'watchlist') {
     $user = $cat;
@@ -97,7 +98,7 @@ foreach(array_keys($bookmarks_tmp) as $key) {
   $extension = end($uriparts);
   unset($uriparts);
 
-  $enclosure = array();
+  $enclosure = array('mime' => NULL, 'length' => NULL);
   if ($keys = multi_array_search($extension, $GLOBALS['filetypes'])) {
     $enclosure['mime']   = file_get_mimetype($_link);
     $enclosure['length'] = file_get_filesize($_link);
