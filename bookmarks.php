@@ -38,6 +38,7 @@ if (isset($_GET['action']) && ($_GET['action'] == "add") && !$userservice->isLog
 @list($url, $user, $cat) = isset($_SERVER['PATH_INFO']) ? explode('/', $_SERVER['PATH_INFO']) : NULL;
 
 $loggedon = false;
+$currentUsername = NULL;
 if ($userservice->isLoggedOn()) {
     $loggedon = true;
     $currentUser = $userservice->getCurrentUser();

@@ -11,6 +11,9 @@ if ($logged_on_userid === false) {
 if (!isset($userid)) {
     $userid = NULL;
 }
+if (!isset($user)) {
+    $user = NULL;
+}
 
 $recentTags = $tagservice->getPopularTags($userid, $popCount, $logged_on_userid, $GLOBALS['defaultRecentDays']);
 $recentTags =& $tagservice->tagCloud($recentTags, 5, 90, 225, 'alphabet_asc'); 

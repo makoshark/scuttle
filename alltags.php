@@ -24,6 +24,7 @@ $sf = new ServiceFactory();
 $bookmarkservice =& $sf->getServiceInstance('BookmarkService');
 $templateservice =& $sf->getServiceInstance('TemplateService');
 $userservice     =& $sf->getServiceInstance('UserService');
+$tagservice      =& $sf->getServiceInstance('TagService');
 $cacheservice    =& $sf->getServiceInstance('CacheService');
 
 @list($url, $user) = explode('/', $_SERVER['PATH_INFO']);

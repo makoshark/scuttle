@@ -26,7 +26,7 @@ $templateservice =& $sf->getServiceInstance('TemplateService');
 $tplVars   = array();
 $completed = FALSE;
 
-if ($_POST['submitted']) {
+if (!empty($_POST['submitted'])) {
   if (!$completed) {  
     $posteduser = trim(utf8_strtolower($_POST['username']));
     $postedpass = trim($_POST['password']);

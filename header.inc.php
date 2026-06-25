@@ -38,5 +38,5 @@ else {
   ini_set('mysql.trace_mode', '0');
   error_reporting(E_ALL);
   //PHP5.4 PHP Notice:  Undefined variable:  PHP7 STOP deprecated and Warning
-  error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_USER_WARNING);
+  error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_WARNING);
 }
