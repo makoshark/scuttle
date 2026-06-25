@@ -48,7 +48,7 @@ if ($userservice->isLoggedOn()) {
 $endcache = false;
 if ($usecache) {
     // Generate hash for caching on
-    $hash = md5($_SERVER['REQUEST_URI'] . $user);
+    $hash = md5($_SERVER['REQUEST_URI'] . $user . ($loggedon ? "U{$currentUserID}" : 'anon'));
 
     // Don't cache if its users' own bookmarks
     if ($loggedon) {
