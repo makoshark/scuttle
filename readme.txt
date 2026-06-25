@@ -2,8 +2,16 @@ Scuttle (Development Snapshot)
 http://scuttle.org/
 
 Copyright (C) 2004 - 2010 Marcus Campbell
+Copyright (C) 2009 Igor
 Copyright (C) 2011 Thomas Niepraschk
-Copyright (C) 2011 Benjamin Mako Hill
+Copyright (C) 2011 Michiel Dethmers
+Copyright (C) 2011 Matt Storey
+Copyright (C) 2011 - 2012 Bart Lantz
+Copyright (C) 2011 - 2016 Takuya Ono
+Copyright (C) 2011 - 2016 Tarek Soliman
+Copyright (C) 2011 - 2026 Benjamin Mako Hill
+Copyright (C) 2013 - 2016 robelix (Roland)
+Copyright (C) 2017 - 2018 Callum Macdonald
 Available under the GNU General Public License
 
 ============
@@ -15,15 +23,3 @@ INSTALLATION
 * Edit config.inc.php.example and save the changes as a new config.inc.php file in the same directory.
 
 * Set the CHMOD permissions on the /cache/ subdirectory to 777
-
-=====================
-PHP 8 Transition/Bugs
-=====================
-
-Notes:
-
-- Things are working but (a) I have not touched the RSS code.
-
-- The search.in.php stuff seems broken such that if you search in subsets the selection is totally broken when it comes back.
-
-- There are still a number of errors that show up.
