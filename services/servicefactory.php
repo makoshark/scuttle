@@ -8,7 +8,6 @@ class ServiceFactory {
         static $db;
         if (!isset($db)) {
             require_once dirname(__FILE__) .'/../includes/db/'. $dbtype .'.php';
-            error_log("creating new db instance");
             $db = new sql_db();
             $db->sql_connect($dbhost, $dbuser, $dbpass, $dbname, $dbport, $dbpersist);
             if(!$db->db_connect_id) {
