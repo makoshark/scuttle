@@ -28,7 +28,7 @@ $cacheservice    =& $sf->getServiceInstance('CacheService');
 
 $tplVars = array();
 header('Content-Type: application/xml');
-list($url, $user, $cat) = explode('/', $_SERVER['PATH_INFO']);
+list($url, $user, $cat) = array_pad(explode('/', $_SERVER['PATH_INFO'] ?? ''), 3, NULL);
 
 if ($usecache) {
   // Generate hash for caching on
