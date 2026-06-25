@@ -24,6 +24,12 @@ $bookmarkservice =& $sf->getServiceInstance('BookmarkService');
 $templateservice =& $sf->getServiceInstance('TemplateService');
 $userservice     =& $sf->getServiceInstance('UserService');
 $cacheservice    =& $sf->getServiceInstance('CacheService');
+$tagservice      =& $sf->getServiceInstance('TagService');
+
+$logged_on_userid = $userservice->getCurrentUserId();
+if ($logged_on_userid === false) {
+    $logged_on_userid = NULL;
+}
 
 list($url, $user) = explode('/', $_SERVER['PATH_INFO']);
 
