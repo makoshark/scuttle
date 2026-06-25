@@ -255,6 +255,20 @@ class TagService {
     }
 
     function &getPopularTags($user = NULL, $limit = 30, $logged_on_user = NULL, $days = NULL) {
+        // Result cache; runs on every sidebar render. Gated on
+        // $cache_popular_tags_ttl (config.inc.php); 0 disables.
+        $ttl = isset($GLOBALS['cache_popular_tags_ttl']) ? (int)$GLOBALS['cache_popular_tags_ttl'] : 0;
+        if ($ttl > 0) {
+            $cache_key  = md5(serialize(array($user, $limit, $logged_on_user, $days)));
+            $cache_file = $GLOBALS['dir_cache'] . '/popular_tags/' . $cache_key;
+            if (is_file($cache_file) && (time() - filemtime($cache_file) < $ttl)) {
+                $cached = @unserialize(file_get_contents($cache_file));
+                if ($cached !== false) {
+                    return $cached;
+                }
+            }
+        }
+
         // Only count the tags that are visible to the current user.
         if (($user != $logged_on_user) || is_null($user) || ($user === false))
             $privacy = ' AND B.bStatus = 0';
@@ -279,7 +293,12 @@ class TagService {
             return false;
         }
 
-        return $this->db->sql_fetchrowset($dbresult);
+        $result = $this->db->sql_fetchrowset($dbresult);
+        if ($ttl > 0) {
+            @mkdir(dirname($cache_file), 0700, true);
+            @file_put_contents($cache_file, serialize($result), LOCK_EX);
+        }
+        return $result;
     }
 
     function hasTag($bookmarkid, $tag) {

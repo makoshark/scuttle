@@ -87,6 +87,9 @@ $adminemail = 'admin@example.org';
 # usecache     : true   - Cache pages when possible
 #                false  - Don't cache at all [Default]
 # dir_cache    : The directory where cache files will be stored
+# cache_popular_tags_ttl : Seconds to cache the popular-tags query
+#                          result (this query runs on every sidebar
+#                          render). 0 disables.
 #
 # useredir     : true   - Improve privacy by redirecting all bookmarks
 #                         through the address specified in url_redir
@@ -119,6 +122,7 @@ $cleanurls         = FALSE;
 
 $usecache          = FALSE;
 $dir_cache         = dirname(__FILE__) .'/cache/';
+$cache_popular_tags_ttl = 0;
 
 $useredir          = FALSE;
 $url_redir         = 'http://www.google.com/url?sa=D&q=';
