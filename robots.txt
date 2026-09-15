@@ -1,0 +1,23 @@
+User-agent: *
+
+# Every tag page links to deeper tag combinations, so these are an
+# unbounded crawl space.
+Disallow: /tags/*+
+Disallow: /bookmarks/*+
+Disallow: /rss/*+
+
+# Unbounded query space
+Disallow: /search
+
+# Account and mutation endpoints
+Disallow: /login
+Disallow: /register
+Disallow: /password
+Disallow: /profile
+Disallow: /edit
+Disallow: /import
+Disallow: /importNetscape
+Disallow: /tagdelete
+Disallow: /tagrename
+Disallow: /watch
+Disallow: /ajax
