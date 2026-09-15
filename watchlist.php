@@ -36,19 +36,22 @@ if ($userservice->isLoggedOn()) {
     $currentUsername = $currentUser[$userservice->getFieldName('username')];
 }
 
+$endcache = false;
 if ($usecache) {
     // Generate hash for caching on
     if ($loggedon) {
         if ($currentUsername != $user) {
-            $cachehash = md5($_SERVER['REQUEST_URI'] . $currentUsername);
+            $hash = md5($_SERVER['REQUEST_URI'] . $currentUsername);
 
             // Cache for 5 minutes
-            $cacheservice->Start($cachehash);
+            $cacheservice->Start($hash);
+            $endcache = true;
         }
     } else {
         // Cache for 30 minutes
-        $cachehash = md5($_SERVER['REQUEST_URI']);
-        $cacheservice->Start($cachehash, 1800);
+        $hash = md5($_SERVER['REQUEST_URI']);
+        $cacheservice->Start($hash, 1800);
+        $endcache = true;
     }
 }
 
@@ -118,7 +121,7 @@ if ($user) {
     exit();
 }
 
-if ($usecache) {
+if ($usecache && $endcache) {
     // Cache output if existing copy has expired
     $cacheservice->End($hash);
 }
