@@ -134,6 +134,9 @@ class UserService {
         } else if (isset($_COOKIE[$this->getCookieKey()])) {
             $cook = explode(':', $_COOKIE[$this->getCookieKey()]); //split(':', $_COOKIE[$this->getCookieKey()]);
             //cookie looks like this: 'id:md5(username+password)'
+            if (count($cook) != 2 || !ctype_digit($cook[0])) {
+                return false;
+            }
             $query = 'SELECT * FROM '. $this->getTableName() .
                      ' WHERE MD5(CONCAT('.$this->getFieldName('username') .
                                      ', '.$this->getFieldName('password') .
