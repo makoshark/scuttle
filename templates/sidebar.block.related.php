@@ -23,7 +23,7 @@ if ($currenttag) {
     <table>
     <?php foreach($relatedTags as $row): ?>
     <tr>
-        <td><a href="<?php echo sprintf($cat_url, filter($user, 'url'), filter($currenttag, 'url') .'+'. filter($row['tag'], 'url')); ?>">+</a></td>
+        <td><a href="<?php echo sprintf($cat_url, filter($user, 'url'), filter($currenttag, 'url') .'+'. filter($row['tag'], 'url')); ?>"<?php echo $GLOBALS['nofollow'] ? ' rel="nofollow"' : ''; ?>>+</a></td>
         <td><a href="<?php echo sprintf($cat_url, filter($user, 'url'), filter($row['tag'], 'url')); ?>" rel="tag"><?php echo filter($row['tag']); ?></a></td>
 
     </tr>
