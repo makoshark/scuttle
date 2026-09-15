@@ -11,7 +11,7 @@ class CacheService {
     return $instance;
   }
 
-  function CacheService() {
+  function __construct() {
     $this->basedir = $GLOBALS['dir_cache'];
   }
 
